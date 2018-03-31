@@ -1,3 +1,59 @@
 body {
     padding-top: 5rem;
 }
+
+.title{
+    text-decoration: underline;
+    width:600px;
+}
+
+.contform{
+    background-color: maroon;
+    width:550px;
+    border: solid;
+    color:lightblue;
+    font-size:medium;
+    font-family: "Times New Roman";
+    border-color: lightblue;
+    border-radius:5px;
+    height: 900px;
+}
+
+.contlabels{
+    font-weight: bolder;
+    font-size:large;
+}
+
+.continputs{
+    border:solid;
+    border-color: lightblue;
+    border-radius: 5px;
+}
+
+.conwidth{
+    width:275px;
+}
+
+.conbutton{
+    position: relative;
+    left:100px;
+    border-radius: 10px;
+    border-color: white;
+    background-color: lightblue;
+    color:maroon;
+    width:170px;
+    font-weight: bolder;
+    
+}
+
+.conpos{
+    position:relative;
+    top:5px;
+    left:25px;
+}
+
+.required{
+    color:yellow;
+    font-size: large;
+    font-weight: bolder;
+}

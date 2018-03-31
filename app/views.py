@@ -5,11 +5,13 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
-from app import app, db, login_manager
+from app import app, db, filefolder
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import login_user, logout_user, current_user, login_required
-from forms import LoginForm
+from forms import ProfileForm
+from werkzeug.utils import secure_filename
 from models import UserProfile
+import os
+import datetime
 
 
 ###
@@ -27,57 +29,51 @@ def about():
     """Render the website's about page."""
     return render_template('about.html')
 
-@app.route('/secure-page/')
-@login_required
-def secure_page():
-    return render_template('secure_page.html')
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('secure_page'))
-    form = LoginForm()
+@app.route("/profile", methods=["GET", "POST"])
+def profile():
+    form = ProfileForm()
     if request.method == "POST" and form.validate_on_submit():
-        # change this to actually validate the entire form submission
-        # and not just one field
-        username=form.username.data
-        password=form.password.data
-        
-        user=UserProfile.query.filter_by(username=username,password=password).first()
-            # Get the username and password values from the form.
-        if user is not None:
-
-            # using your model, query database for a user based on the username
-            # and password submitted
-            # store the result of that query to a `user` variable so it can be
-            # passed to the login_user() method.
-
-            # get user id, load into session
-            login_user(user)
-            flash('Logged in successfully.','success')
-
-            # remember to flash a message to the user
-            return redirect(url_for("secure_page"))  # they should be redirected to a secure-page route instead
-        else:
-            flash('Username or Password is incorrect.','danger')
+        fname=form.first_name.data
+        lname=form.last_name.data
+        email=form.email.data
+        gender=form.gender.data
+        location=form.location.data
+        bio=form.bio.data
+        fileupd = form.image.data
+        filename = secure_filename(fileupd.filename)
+        created=datetime.datetime.now()
+        user=user = UserProfile(first_name=fname, last_name=lname, gender=gender, email=email, location=location, biography=bio, image_url=filename, created_on=created)
+        db.session.add(user)
+        db.session.commit()
+        fileupd.save(os.path.join(filefolder, filename))
+        flash('User added successfully','success')
+        return redirect(url_for('profiles')) 
     flash_errors(form)
-    return render_template("login.html", form=form)
+    return render_template("profile.html", form=form)
 
 
+def getImages():
+    images= os.listdir(filefolder)
+    imagelist=[]
+    for x in images:
+        imagelist.append(x)
+    return imagelist
 
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    flash('You have been logged out.','danger')
-    return redirect(url_for('home'))
+
+@app.route("/profiles")
+def profiles():
+    images=getImages()
+    users = UserProfile.query.all()
+    return render_template('profiles.html', users=users, images=images)
     
-# user_loader callback. This callback is used to reload the user object from
-# the user ID stored in the session
-@login_manager.user_loader
-def load_user(id):
-    return UserProfile.query.get(int(id))
-
+    
+@app.route("/profiles/<filename>")
+def user_profile(filename):
+    user = UserProfile.query.filter_by(id=filename).first()
+    images= getImages()
+    return render_template('user_profile.html', user=user, images=images)
+    
+    
 ###
 # The functions below should be applicable to all Flask apps.
 ###

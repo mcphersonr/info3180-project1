@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <h2>Please Add User</h2>
+    <form method='POST' action="{{ url_for('profile') }}" enctype="multipart/form-data" >
+      {{ form.csrf_token }}
+    {{form.first_name.label(class="contlabels conpos")}}
+    </br><p class="conpos">Please enter your first name</p>
+    {{form.first_name(class="continputs conwidth conpos")}}
+    </br></br>
+    <ul>
+    {% for error in form.first_name.errors %}
+      <li style="color:red;">{{ error }}</li>
+    {% endfor %}
+    </ul>
+    
+    {{form.last_name.label(class="contlabels conpos")}}
+    </br><p class="conpos">Please enter your last name</p>
+    {{form.last_name(class="continputs conwidth conpos")}}
+    </br></br>
+    <ul>
+    {% for error in form.last_name.errors %}
+      <li style="color:red;">{{ error }}</li>
+    {% endfor %}
+    </ul>
+    
+    {{form.gender.label(class="contlabels conpos")}}
+    </br><p class="conpos">Please enter your gender name</p>
+    {{form.gender(class="continputs conwidth conpos")}}
+    </br></br>
+    <ul>
+    {% for error in form.gender.errors %}
+      <li style="color:red;">{{ error }}</li>
+    {% endfor %}
+    </ul>
+
+    {{form.email.label(class="contlabels conpos")}}
+    </br><p class="conpos">Please enter your email address</p>
+    {{form.email(class="continputs conwidth conpos")}}
+    </br></br>
+    <ul>
+    {% for error in form.email.errors %}
+      <li style="color:red;">{{ error }}</li>
+    {% endfor %}
+    </ul>
+    
+    {{form.location.label(class="contlabels conpos")}}
+    </br><p class="conpos">Please enter your location</p>
+    {{form.location(class="continputs conwidth conpos")}}
+    </br></br>
+    <ul>
+    {% for error in form.location.errors %}
+      <li style="color:red;">{{ error }}</li>
+    {% endfor %}
+    </ul>
+
+    {{form.bio.label(class="contlabels conpos")}}
+    </br><p class="conpos">Please enter something about yourself</p>
+    {{form.bio(class="continputs conpos", cols="60", rows="10")}}
+    </br></br>
+    <ul>
+    {% for error in form.bio.errors %}
+      <li style="color:red;">{{ error }}</li>
+    {% endfor %}
+    </ul>
+    
+    {{form.image.label(class="contlabels conpos")}}
+    </br><p class="conpos">Please add an image that tells about yourself</p>
+    {{form.image(class="continputs conpos")}}
+    </br></br>
+    <ul>
+    {% for error in form.image.errors %}
+      <li style="color:red;">{{ error }}</li>
+    {% endfor %}
+    </ul>
+    <button class="conbutton" name="submit" type="submit">Send</button>
+    </form>
+{% endblock %}
