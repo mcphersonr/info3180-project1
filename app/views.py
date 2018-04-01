@@ -52,26 +52,17 @@ def profile():
     return render_template("profile.html", form=form)
 
 
-def getImages():
-    images= os.listdir(filefolder)
-    imagelist=[]
-    for x in images:
-        imagelist.append(x)
-    return imagelist
-
 
 @app.route("/profiles")
 def profiles():
-    images=getImages()
     users = UserProfile.query.all()
-    return render_template('profiles.html', users=users, images=images)
+    return render_template('profiles.html', users=users)
     
     
 @app.route("/profiles/<filename>")
 def user_profile(filename):
     user = UserProfile.query.filter_by(id=filename).first()
-    images= getImages()
-    return render_template('user_profile.html', user=user, images=images)
+    return render_template('user_profile.html', user=user)
     
     
 ###
