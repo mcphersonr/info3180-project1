@@ -3,29 +3,22 @@
 {% block main %}
   <div class="gridview">
       {% for user in users %}
-         {% for image in images %}
+        {% for image in images %}
             {% if user.image_url ==  image %}
-            <div class="container" id="containerid">
-	<div class="row">
-		<div class="span4 well">
-            <div class="row">
-        		<div class="span1" id="spacediv"><img class= "userimg" src="{{url_for('static', filename='uploads/'+image)}}" /></div>
-        		<div class="span2" id="spacediv">
+            <div class="profilebox">
+        		<div class="profileimage"><img src="{{url_for('static', filename='uploads/'+image)}}" /></div>
+        		<div class="profiledetails">
                   	<p><strong>{{ user.first_name }} {{ user.last_name }}</strong></p>
-                  	<p><span class="glyphicon glyphicon-user one" style="width:50px;"></span>{{ user.gender }}</p>
-                    <p><span class="glyphicon glyphicon-map-marker one" style="width:50px;"></span>{{ user.location }}</p>
+                  	<p>{{ user.gender }}</p>
+                    <p>{{ user.location }}</p>
+                    <a href="{{ url_for('user_profile', filename= user.id ) }}"><button class="profilebutton" type="button">View Profile</button></a>
         		</div>
-        		<div id="spacediv"><a class="span3" href="{{ url_for('user_profile', filename= user.id ) }}"><button type="button" class="btn btn-success" >View Profile</button></a></div>
         	</div>
-        </div>
-	</div>
-</div>
             {% endif %}
     
         {% endfor %}
       
       {% endfor %}
-    
     </div>
 
 

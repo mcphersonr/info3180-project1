@@ -57,3 +57,30 @@ body {
     font-size: large;
     font-weight: bolder;
 }
+
+
+.profilebox{
+    width:800px;
+    height: 600px;
+    position: relative;
+}
+
+.profileimage{
+    width:200px;
+    height:200px;
+    top:100px;
+    right:100px;
+}
+
+.profiledetails{
+    position: relative;
+    left:600px;
+    top:0px;
+}
+
+.profilebutton{
+    color: lightblue;
+    background-color: maroon;
+    border-radius: 10px;
+    width:150px;
+}
